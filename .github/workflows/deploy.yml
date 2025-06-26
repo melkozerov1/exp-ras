@@ -1,0 +1,22 @@
+name: Deploy to Yandex Cloud
+
+on:
+  push:
+    branches:
+      - main  # Замените на вашу рабочую ветку, если нужно
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Yandex Cloud CLI
+      uses: yandex-cloud/yandex-cloud-action@v1
+      with:
+        service_account_key: ${{ secrets.YC_SERVICE_ACCOUNT_KEY }}
+
+    - name: Upload to Yandex Cloud Storage
+      run: |
+        yc storage cp -r ./public/ yandex://ras-exp/  # Замените на путь вашего проекта
